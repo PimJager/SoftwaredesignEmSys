@@ -1,0 +1,19 @@
+run1: 
+
+starting tasks
+Task name: t1 
+Task name: t2 
+Task name: t3 
+Task name: t4 
+Task name: t5 
+
+Taken worden in volgorde uitgevoerd.
+
+run2:
+
+starting tasks
+Task name: t1 
+Task name: t2 
+Task name: t3 
+Task name: t4 
+Task name: t5 

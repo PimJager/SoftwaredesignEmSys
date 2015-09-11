@@ -1,0 +1,10 @@
+starting tasks
+Task name: t1 arg: 1 
+Task name: t2 arg: 2 
+Task name: t3 arg: 3 
+Task name: t4 arg: 4 
+Task name: t5 arg: 5 
+
+The order hasn't changed even though the priorities have changed. This is
+because the tasks are strted immideatly (real time) and so they run before
+the next task can be started (singel core CPU)
