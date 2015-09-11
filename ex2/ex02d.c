@@ -17,20 +17,21 @@ void task(void *arg)
 {
   int a = * (int *) arg;
 
-  RT_TASK *curtask;
-  RT_TASK_INFO curtaskinfo;
-  curtask=rt_task_self();
-  rt_task_inquire(curtask,&curtaskinfo);
-
   if(a <= 3){
     int err;
     err = rt_task_set_periodic(NULL, 1000000000, 1000000000);
     if(err == 0){
-      rt_printf("task started succesfully\n");
+      rt_printf("task started succesfully: %d\n", a);
     } else {
       rt_printf("scheduling task filed with errno %d\n", err);
     } 
   }
+
+  RT_TASK *curtask;
+  RT_TASK_INFO curtaskinfo;
+  curtask=rt_task_self();
+  rt_task_inquire(curtask,&curtaskinfo);
+  rt_printf("%s %d", curtaskinfo.name, a);
 
   while(1){
     rt_printf("Task name: %s arg: %d \n", curtaskinfo.name, a);
