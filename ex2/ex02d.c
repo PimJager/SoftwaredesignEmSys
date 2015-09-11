@@ -22,6 +22,15 @@ void task(void *arg)
   curtask=rt_task_self();
   rt_task_inquire(curtask,&curtaskinfo);
   rt_printf("Task name: %s arg: %d \n", curtaskinfo.name, a);
+
+  if(a <= 3){
+    err = rt_task_set_periodic(NULL, TM_NOW, (RTIME) a*1000000000);
+    if(err == 0){
+      rt_printf("task started suvvesfully\n");
+    } else {
+      rt_printf("scheduling task filed with errno %d\n", err);
+    } 
+  }
   
 }
  
@@ -68,13 +77,14 @@ int main(int argc, char* argv[])
 
   // Loop three tasks
   //task, timeout, period
+  /* This doesn't work, why????
   int err;
   err = rt_task_set_periodic(&task2, TM_NOW, (RTIME) 1000000000);
   if(err == 0){
     rt_printf("task started suvvesfully\n");
   } else {
     rt_printf("scheduling task filed with errno %d\n", err);
-  } 
+  } */
 
   rt_printf("end program by CTRL-C\n");
   pause();
