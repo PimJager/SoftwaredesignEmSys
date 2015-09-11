@@ -23,15 +23,16 @@ void task(void *arg)
   rt_task_inquire(curtask,&curtaskinfo);
 
   if(a <= 3){
-    err = rt_task_set_periodic(NULL, TM_NOW, (RTIME) a*1000000000);
+    int err;
+    err = rt_task_set_periodic(NULL, 1000000000, 1000000000);
     if(err == 0){
       rt_printf("task started succesfully\n");
     } else {
       rt_printf("scheduling task filed with errno %d\n", err);
     } 
   }
-  
-  while(TRUE){
+
+  while(1){
     rt_printf("Task name: %s arg: %d \n", curtaskinfo.name, a);
     rt_task_wait_period(NULL);
   }
