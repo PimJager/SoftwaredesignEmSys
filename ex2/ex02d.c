@@ -68,7 +68,13 @@ int main(int argc, char* argv[])
 
   // Loop three tasks
   //task, timeout, period
-  rt_task_set_periodic(&task1, 1000000000, 100000000)
+  int err;
+  err = rt_task_set_periodic(&task2, TM_NOW, 100000);
+  if(err == 0){
+    rt_printf("task started suvvesfully\n");
+  } else {
+    rt_printf("starting task filed with errno %d\n", err);
+  } 
 
   rt_printf("end program by CTRL-C\n");
   pause();
