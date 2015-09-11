@@ -19,7 +19,7 @@ void task(void *arg)
 
   if(a <= 3){
     int err;
-    err = rt_task_set_periodic(NULL, 1000000000, 1000000000);
+    err = rt_task_set_periodic(NULL, TM_NOW, 10000000);
     if(err == 0){
       rt_printf("task started succesfully: %d\n", a);
     } else {
