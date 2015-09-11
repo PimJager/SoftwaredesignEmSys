@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/mman.h>
+#include <stdint.h>
  
 #include <native/task.h>
 #include <native/timer.h>
@@ -19,7 +20,7 @@ void task(void *arg)
 
   if(a <= 3){
     int err;
-    err = rt_task_set_periodic(NULL, TM_NOW, 10000000);
+    err = rt_task_set_periodic(NULL, TM_NOW, 1000000000LLU);
     if(err == 0){
       rt_printf("task started succesfully: %d\n", a);
     } else {
