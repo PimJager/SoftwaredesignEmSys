@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
   // Loop three tasks
   //task, timeout, period
-  rt_task_set_periodic(&task1, 1000000000, 100000000) 
+  rt_task_set_periodic(&task1, 1000000000, 100000000)
 
   rt_printf("end program by CTRL-C\n");
   pause();
