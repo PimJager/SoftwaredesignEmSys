@@ -19,8 +19,10 @@ void task(void *arg)
   int a = * (int *) arg;
 
   if(a <= 3){
+    unsigned long long period = 1000000000LLU * (unsigned long long) a;
+    rt_printf("%d: Period: %llu \n", a, period);
     int err;
-    err = rt_task_set_periodic(NULL, TM_NOW, 1000000000LLU);
+    err = rt_task_set_periodic(NULL, TM_NOW, period);
     if(err == 0){
       rt_printf("task started succesfully: %d\n", a);
     } else {
@@ -32,9 +34,8 @@ void task(void *arg)
   RT_TASK_INFO curtaskinfo;
   curtask=rt_task_self();
   rt_task_inquire(curtask,&curtaskinfo);
-  rt_printf("%s %d", curtaskinfo.name, a);
-
-  while(1){
+  rt_printf("%s %d\n", curtaskinfo.name, a);
+  while(a<=3){
     rt_printf("Task name: %s arg: %d \n", curtaskinfo.name, a);
     rt_task_wait_period(NULL);
   }
