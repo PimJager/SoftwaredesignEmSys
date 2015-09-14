@@ -7,7 +7,7 @@ Task name: t3
 Task name: t4 
 Task name: t5 
 
-Taken worden in volgorde uitgevoerd.
+Tasks are executed in order.
 
 run2:
 
