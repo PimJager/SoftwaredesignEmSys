@@ -37,6 +37,11 @@ void demo(void *arg)
     RT_TASK *curtask;
     RT_TASK_INFO curtaskinfo;
 
+    int res1 = rt_task_set_mode(0, T_RRB, NULL);
+    if(res1!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res, strerror(-res));
+    int res2 = rt_task_slice(&demo_task[i], SLICE);
+    if(res2!=0) rt_printf("Error setting slice for task %d: %d: %s\n", i, res, strerror(-res));
+
     rt_printf("Task  : %d\n",num);
 
     rt_sem_p(&mysync,TM_INFINITE);
@@ -71,8 +76,6 @@ void startup()
     rt_printf("start task  : %d\n",i);
     sprintf(str,"task%d",i);
     rt_task_create(&demo_task[i], str, 0, 50, 0);
-    int res = rt_task_slice(&demo_task[i], SLICE);
-    if(res!=0) rt_printf("Error setting slice for task %d: %d: %s\n", i, res, strerror(-res));
     rt_task_start(&demo_task[i], &demo, &i);
   }
   rt_printf("wake up all tasks\n");
@@ -95,9 +98,6 @@ int main(int argc, char* argv[])
 
   // code to set things to run xenomai
   init_xenomai();
-
-  int res = rt_task_set_mode(0, T_RRB, NULL);
-  if(res!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res, strerror(-res));
 
   //startup code
   startup();
