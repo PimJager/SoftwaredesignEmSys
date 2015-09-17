@@ -61,9 +61,6 @@ void startup()
   int i;
   char  str[10] ;
 
-  int res = rt_task_set_mode(0, T_RRB, NULL);
-  if(res!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res, strerror(-res));
-
   // semaphore to sync task startup on
   rt_sem_create(&mysync,"MySemaphore",0,S_FIFO);
 
@@ -98,6 +95,9 @@ int main(int argc, char* argv[])
 
   // code to set things to run xenomai
   init_xenomai();
+
+  int res = rt_task_set_mode(0, T_RRB, NULL);
+  if(res!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res, strerror(-res));
 
   //startup code
   startup();
