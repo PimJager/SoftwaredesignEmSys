@@ -71,7 +71,8 @@ void startup()
     rt_printf("start task  : %d\n",i);
     sprintf(str,"task%d",i);
     rt_task_create(&demo_task[i], str, 0, 50, 0);
-    rt_task_slice(&demo_task[i], SLICE);
+    int res = rt_task_slice(&demo_task[i], SLICE);
+    if(res!=0) rt_printf("Error setting slice for task %d: %d: %s", i, res, strerror(-res));
     rt_task_start(&demo_task[i], &demo, &i);
   }
   rt_printf("wake up all tasks\n");
@@ -85,7 +86,8 @@ void init_xenomai() {
   /* Perform auto-init of rt_print buffers if the task doesn't do so */
   rt_print_auto_init(1);
 
-  rt_task_set_mode(0, T_RRB, NULL);
+  int res = rt_task_set_mode(0, T_RRB, NULL);
+  if(res!=0) rt_printf("Error setting RRB scheduling: %d: %s", res, strerror(-res));
 }
 
 int main(int argc, char* argv[])
