@@ -61,6 +61,9 @@ void startup()
   int i;
   char  str[10] ;
 
+  int res = rt_task_set_mode(0, T_RRB, NULL);
+  if(res!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res, strerror(-res));
+
   // semaphore to sync task startup on
   rt_sem_create(&mysync,"MySemaphore",0,S_FIFO);
 
@@ -72,7 +75,7 @@ void startup()
     sprintf(str,"task%d",i);
     rt_task_create(&demo_task[i], str, 0, 50, 0);
     int res = rt_task_slice(&demo_task[i], SLICE);
-    if(res!=0) rt_printf("Error setting slice for task %d: %d: %s", i, res, strerror(-res));
+    if(res!=0) rt_printf("Error setting slice for task %d: %d: %s\n", i, res, strerror(-res));
     rt_task_start(&demo_task[i], &demo, &i);
   }
   rt_printf("wake up all tasks\n");
@@ -86,8 +89,7 @@ void init_xenomai() {
   /* Perform auto-init of rt_print buffers if the task doesn't do so */
   rt_print_auto_init(1);
 
-  int res = rt_task_set_mode(0, T_RRB, NULL);
-  if(res!=0) rt_printf("Error setting RRB scheduling: %d: %s", res, strerror(-res));
+  
 }
 
 int main(int argc, char* argv[])
