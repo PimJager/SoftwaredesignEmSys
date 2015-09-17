@@ -21,27 +21,25 @@ int global = 0;
  
 void taskOne(void *arg)
 {
-    rt_task_set_periodic(NULL, TM_NOW, 1000000ULL);
     int i;
     for (i=0; i < ITER; i++)
     {
         rt_sem_p(&semGlobal, TM_INFINITE);
         rt_printf("I am taskOne and global = %d................\n", ++global);
         rt_sem_v(&semGlobal);
-        rt_task_wait_period(NULL);
+        rt_task_sleep(1000000ULL);
     }
 }
  
 void taskTwo(void *arg)
 {
-    rt_task_set_periodic(NULL, TM_NOW, 1000000ULL);
     int i;
     for (i=0; i < ITER; i++)
     {
         rt_sem_p(&semGlobal, TM_INFINITE);
         rt_printf("I am taskTwo and global = %d----------------\n", --global);
         rt_sem_v(&semGlobal);
-        rt_task_wait_period(NULL);
+        rt_task_sleep(1000000ULL);
     }
 }
  
