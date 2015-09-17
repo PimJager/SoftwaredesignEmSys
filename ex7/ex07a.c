@@ -71,9 +71,8 @@ void startup()
     rt_printf("start task  : %d\n",i);
     sprintf(str,"task%d",i);
     rt_task_create(&demo_task[i], str, 0, 50, 0);
-    rt_task_start(&demo_task[i], &demo, &i);
     rt_task_slice(&demo_task[i], SLICE);
-
+    rt_task_start(&demo_task[i], &demo, &i);
   }
   rt_printf("wake up all tasks\n");
   rt_sem_broadcast(&mysync);
@@ -86,7 +85,7 @@ void init_xenomai() {
   /* Perform auto-init of rt_print buffers if the task doesn't do so */
   rt_print_auto_init(1);
 
-  rt_task_set_mode(0, T_RBR, NULL);
+  rt_task_set_mode(0, T_RRB, NULL);
 }
 
 int main(int argc, char* argv[])
