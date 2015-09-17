@@ -1,0 +1,38 @@
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+I am taskOne and global = 1................
+I am taskTwo and global = 0----------------
+
+Our solution works because the tasks work as follows:
+
+1) 	TaskOne (which runs first because it was started first)
+	takes the semaphore (decreases it's value from 1 to 0)
+	and increases the global counter by 1. It then signals
+	the semaphore (increasing it's value from 0 to 1)
+	and then goes to sleep.
+2)  This triggers the scheduler which looks for other tasks and starts
+	execution of taskTwo. Which in it's turn takes the semaphore
+	and decreases the global counter by one and then signals the semaphore
+	and goes to sleep.
+3)  This once again triggers the scheduler, which makes the whole process 
+ 	repeat itself from (1)
+
+Since the semaphore was initialized FIFO, the tasks can take the semaphore in
+the order in which they pend for it. 
+
