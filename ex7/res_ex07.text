@@ -1,0 +1,14 @@
+7b:
+
+The tasks are executed and their execution is split due to the RRB scheduling.
+However the sceduling is not perfect. Even with a slice of just 5
+(1/2 the spin time) it still happens reguarly that one task finishes while the others
+are are still only at 170 or even lower. So the RRB does not divide up the available 
+CPU-time very fairly, this might also be due to other factors, such as the used VM's.
+
+7c: 
+
+Whether or not the fourth task has RRB scheduling does no matter. Due to the higher 
+priority the scheduler will always finish the fourth task first.
+So the fourth task is executed first and then the other three tasks are executed
+using the regular RRB as seen in 7b. 
