@@ -1,0 +1,10 @@
+6a:
+
+The tasks are executed in order of priority. So we see task 2 completing first,
+then task 1 and then task 0. This is beacause they are all ready to execute at 
+once when the semaphore is broadcasted, the sceduler notices task 2
+has the highest priority so it executes that first, etc.
+
+6b: task 1 is nog executed before task 2, because it was created earlier.
+
+6c: 
