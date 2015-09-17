@@ -7,8 +7,10 @@
  
 #include <native/task.h>
 #include <native/timer.h>
+#include <native/sem.h>
  
 #include  <rtdk.h>
+
 RT_TASK task1, task2, task3, task4, task5;
  
 RT_SEM semGlobal;
