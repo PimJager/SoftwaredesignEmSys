@@ -38,9 +38,9 @@ void demo(void *arg)
     RT_TASK_INFO curtaskinfo;
 
     int res1 = rt_task_set_mode(0, T_RRB, NULL);
-    if(res1!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res, strerror(-res));
+    if(res1!=0) rt_printf("Error setting RRB scheduling: %d: %s\n", res1, strerror(-res1));
     int res2 = rt_task_slice(&demo_task[i], SLICE);
-    if(res2!=0) rt_printf("Error setting slice for task %d: %d: %s\n", i, res, strerror(-res));
+    if(res2!=0) rt_printf("Error setting slice for task %d: %d: %s\n", i, res2, strerror(-res2));
 
     rt_printf("Task  : %d\n",num);
 
