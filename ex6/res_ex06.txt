@@ -8,3 +8,16 @@ has the highest priority so it executes that first, etc.
 6b: task 1 is nog executed before task 2, because it was created earlier.
 
 6c: 
+
+during the execturion of task 2, task 0 and 1 are assigned a priority higher then
+the priority of task 2 (priority is now 1>0>2, and was 2>1>0). This means that the scheduler
+will now make task 2 wait and first finish task 1, then finish task 0 and then finsh the 
+remainder of task 2.
+
+6d:
+
+Similar to (6c) the priority of the tasks is changed during runtime. As task 2 is running it lowers
+its priority so the order of priority becomes (1>0>2), the sceduler then pauses task 2 and runs task 1
+which in turn lowers its priority so the order of priority is (0>1>2), this starts task 0, which in turn also
+lowers it's priority (but still has the highest priority). Task 0 is then finished, then the remainer of task 1
+is finished and then the remainder of task 2 is finished. 
