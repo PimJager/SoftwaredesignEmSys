@@ -20,7 +20,7 @@ RT_TASK key_isr;
 void keyhandler(void *arg){
   int n = 0;
 
-  rt_printf("Counting keypresses:\n")
+  rt_printf("Counting keypresses:\n");
 
   while(1){
     int x = rt_intr_wait(&keypress, TM_INFINITE);
