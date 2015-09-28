@@ -31,7 +31,7 @@ void prioLow(void *arg)
 {
     RTIME runtime;
 
-    rt_sem_v($start);
+    rt_sem_v(&start);
 
     runtime = 0;
     while(runtime < EXECTIMELOW) {
@@ -39,7 +39,7 @@ void prioLow(void *arg)
       rt_sem_p(&mysync,TM_INFINITE);
       rt_printf("Low priority task locks semaphore");
 
-      rt_timer_spin(SPINTIMELOW);  // spin cpu doing nothing
+      rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       runtime = runtime + SPINTIME;
 
@@ -49,14 +49,14 @@ void prioLow(void *arg)
     rt_printf("End Task  : %d\n",num);
 }
 
-void prioLMid(void *arg){
+void prioMid(void *arg){
     RTIME runtime;
 
     rt_sem_v(&start);
     rt_task_sleep(WAIT);
   
     runtime = 0;
-    while(runtime < EXECTIME) {
+    while(runtime < EXECTIMEMID) {
       rt_timer_spin(SPINTIMEMID);  // spin cpu doing nothing
 
       runtime = runtime + SPINTIME;
@@ -78,7 +78,7 @@ void prioHigh(void *arg){
       rt_sem_p(&mysync,TM_INFINITE);
       rt_printf("High priority task locks semaphore");
 
-      rt_timer_spin(SPINTIMELOW);  // spin cpu doing nothing
+      rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       i++;
 
