@@ -33,7 +33,7 @@ void keyhandler(void *arg){
 void startup(){
   int err = 0;
   // set timing to ns
-  rt_timer_set_mode(BASEPERIOD);
+  rt_timer_set_mode(0);
 
   err = rt_intr_create(&keypress, NULL, KEYBOARD_IRQ, I_PROPAGATE);
   if(err < 0) rt_printf("Failed creating interrupt: %d: %s", err, strerror(-err)); 
