@@ -32,10 +32,6 @@ void prioLow(void *arg)
     int err = 0;
     RTIME runtime;
 
-    rt_sem_v(&start);
-    if(err < 0) rt_printf("Failed pending start semaphore; error: %d: %s", err, strerror(-err)); 
-        err = 0;
-    rt_printf("prio low\n");
     runtime = 0;
     while(runtime < EXECTIMELOW) {
       
@@ -59,7 +55,6 @@ void prioLow(void *arg)
 void prioMid(void *arg){
     RTIME runtime;
 
-    //rt_sem_v(&start);
     rt_task_sleep(WAIT);
   
     runtime = 0;
@@ -76,7 +71,7 @@ void prioMid(void *arg){
 
 void prioHigh(void *arg){
     int err = 0;
-    //rt_sem_v(&start);
+    
     rt_task_sleep(WAIT);
 
     int i = 0;
