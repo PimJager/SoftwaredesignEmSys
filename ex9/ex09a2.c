@@ -16,7 +16,7 @@ RT_INTR keypress;
 RT_TASK key_isr, dummyT;
 
 #define KEYBOARD_IRQ 1
-#define SPINTIME 3e7
+#define SPINTIME 3e8
 #define SLEEPTIME 2e7
 
 void keyhandler(void *arg){
@@ -42,7 +42,7 @@ void dummy(void *arg){
   while(1) {
     rt_printf("Dummy sleep\n");
     rt_task_sleep(SLEEPTIME);
-    rt_printf("Dummy spin");
+    rt_printf("Dummy spin\n");
     rt_timer_spin(SPINTIME);    
   }
 }
