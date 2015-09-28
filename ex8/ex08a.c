@@ -32,26 +32,28 @@ void prioLow(void *arg)
     int err = 0;
     RTIME runtime;
 
-    //rt_sem_v(&start);
-    rt_printf("prio low");
+    rt_sem_v(&start);
+    if(err < 0) rt_printf("Failed pending start semaphore; error: %d: %s", err, strerror(-err)); 
+        err = 0;
+    rt_printf("prio low\n");
     runtime = 0;
     while(runtime < EXECTIMELOW) {
       
       err = rt_sem_p(&mysync,TM_INFINITE);
       if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
-      rt_printf("Low priority task locks semaphore");
+      rt_printf("Low priority task locks semaphore\n");
 
       rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       runtime = runtime + SPINTIME;
 
-      rt_printf("Low priority task unlocks semaphore");
+      rt_printf("Low priority task unlocks semaphore\n");
       err = rt_sem_v(&mysync);
       if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
     }
-    rt_printf("..........................................Low priority task ends");
+    rt_printf("..........................................Low priority task ends\n");
 }
 
 void prioMid(void *arg){
@@ -66,10 +68,10 @@ void prioMid(void *arg){
 
       runtime = runtime + SPINTIME;
 
-      rt_printf("Medium task running");
+      rt_printf("Medium task running\n");
       
     }
-    rt_printf("..........................................Medium priority task ends");
+    rt_printf("..........................................Medium priority task ends\n");
 }
 
 void prioHigh(void *arg){
@@ -80,22 +82,22 @@ void prioHigh(void *arg){
     int i = 0;
     while(i<3) {
       
-      rt_printf("High priority task tries to lock semaphore");
+      rt_printf("High priority task tries to lock semaphore\n");
       err = rt_sem_p(&mysync,TM_INFINITE);
       if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
-      rt_printf("High priority task locks semaphore");
+      rt_printf("High priority task locks semaphore\n");
 
       rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       i++;
 
-      rt_printf("High priority task unlocks semaphore");
+      rt_printf("High priority task unlocks semaphore\n");
       err = rt_sem_v(&mysync);
       if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
     }
-    rt_printf("..........................................High priority task ends");
+    rt_printf("..........................................High priority task ends\n");
 }
 
 //startup code
@@ -132,7 +134,7 @@ void startup(){
   if(err < 0) rt_printf("Failed to start task high; error: %d: %s", err, strerror(-err)); 
     err = 0;
 
-  rt_printf("wake up all tasks\n");
+  rt_printf("wake up all tasks\n\n");
   rt_sem_broadcast(&start);
 }
 
