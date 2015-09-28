@@ -53,9 +53,7 @@ void startup(){
 void listenLPT1(){
   //we need to enable interrupts on LPT1
   ioperm(0x37A, 1, 1);
-  unsigned char b = inb(0x37A);
-  b = b | 0x10;
-  outb(b, 0x37A);
+  outb(inb(0x37A)|0x10, 0x37A);
 }
 
 void tearDownLPT1(){
