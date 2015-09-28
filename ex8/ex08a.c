@@ -17,7 +17,7 @@
 #define LOW 50  /* low priority */
 
 RT_TASK lowP, midP, highP;
-RT_SEM start, mysync;
+RT_SEM mysync;
 
 #define BASEPERIOD 0   // baseperiod 0 to get ns
 
@@ -71,7 +71,7 @@ void prioMid(void *arg){
 
 void prioHigh(void *arg){
     int err = 0;
-    
+
     rt_task_sleep(WAIT);
 
     int i = 0;
@@ -128,9 +128,6 @@ void startup(){
   err = rt_task_start(&lowP, &prioLow, 0);
   if(err < 0) rt_printf("Failed to start task low; error: %d: %s", err, strerror(-err)); 
     err = 0;
-
-  rt_printf("wake up all tasks\n\n");
-  rt_sem_broadcast(&start);
 }
 
 void init_xenomai() {
