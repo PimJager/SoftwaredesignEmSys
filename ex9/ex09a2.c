@@ -16,7 +16,7 @@ RT_INTR keypress;
 RT_TASK key_isr, dummyT;
 
 #define KEYBOARD_IRQ 1
-#define SPINTIME 3e8
+#define SPINTIME 3e9
 #define SLEEPTIME 2e7
 
 void keyhandler(void *arg){

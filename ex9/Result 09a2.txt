@@ -1,0 +1,4 @@
+Result 09a2
+
+The interrupt handler has a priority of 257 during an interrupt.
+However it is still only executed after the spin time of the dummy task
