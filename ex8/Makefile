@@ -1,7 +1,7 @@
 ###### CONFIGURATION ######
 
 ### List of applications to be build
-APPLICATIONS = ex08a
+APPLICATIONS = ex08a ex08b
 
 ### Note: to override the search path for the xeno-config script, use "make XENO=..."
 

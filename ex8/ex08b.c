@@ -17,7 +17,7 @@
 #define LOW 50  /* low priority */
 
 RT_TASK lowP, midP, highP;
-RT_SEM mysync;
+RT_MUTEX mysync;
 
 #define BASEPERIOD 0   // baseperiod 0 to get ns
 
@@ -35,18 +35,18 @@ void prioLow(void *arg)
     runtime = 0;
     while(runtime < EXECTIMELOW) {
       
-      err = rt_sem_p(&mysync,TM_INFINITE);
-      if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", err, strerror(-err)); 
+      err = rt_mutex_acquire(&mysync,TM_INFINITE);
+      if(err < 0) rt_printf("Failed pending mutex; error: %d: %s", err, strerror(-err)); 
         err = 0;
-      rt_printf("Low priority task locks semaphore\n");
+      rt_printf("Low priority task locks mutex\n");
 
       rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       runtime = runtime + SPINTIME;
 
-      rt_printf("Low priority task unlocks semaphore\n");
-      err = rt_sem_v(&mysync);
-      if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", err, strerror(-err)); 
+      rt_printf("Low priority task unlocks mutex\n");
+      err = rt_mutex_release(&mysync);
+      if(err < 0) rt_printf("Failed signaling mutex; error: %d: %s", err, strerror(-err)); 
         err = 0;
     }
     rt_printf("..........................................Low priority task ends\n");
@@ -77,19 +77,19 @@ void prioHigh(void *arg){
     int i = 0;
     while(i<3) {
       
-      rt_printf("High priority task tries to lock semaphore\n");
-      err = rt_sem_p(&mysync,TM_INFINITE);
-      if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", err, strerror(-err)); 
+      rt_printf("High priority task tries to lock mutex\n");
+      err = rt_mutex_acquire(&mysync,TM_INFINITE);
+      if(err < 0) rt_printf("Failed pending mutex; error: %d: %s", err, strerror(-err)); 
         err = 0;
-      rt_printf("High priority task locks semaphore\n");
+      rt_printf("High priority task locks mutex\n");
 
       rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       i++;
 
-      rt_printf("High priority task unlocks semaphore\n");
-      err = rt_sem_v(&mysync);
-      if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", err, strerror(-err)); 
+      rt_printf("High priority task unlocks mutex\n");
+      err = rt_mutex_release(&mysync);
+      if(err < 0) rt_printf("Failed signaling mutex; error: %d: %s", err, strerror(-err)); 
         err = 0;
     }
     rt_printf("..........................................High priority task ends\n");
@@ -98,12 +98,9 @@ void prioHigh(void *arg){
 //startup code
 void startup(){
   int err = 0;
-  // semaphore to sync task startup on
-  err = rt_sem_create(&mysync,"MySemaphore",1,S_FIFO);
-  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", err, strerror(-err)); 
-    err = 0;
-  err = rt_sem_create(&start,"Startsync",0,S_FIFO);
-  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", err, strerror(-err)); 
+  // mutex to sync task startup on
+  err = rt_mutex_create(&mysync,"Mutex");
+  if(err < 0) rt_printf("Failed to create mutex; error: %d: %s", err, strerror(-err)); 
     err = 0;
 
 

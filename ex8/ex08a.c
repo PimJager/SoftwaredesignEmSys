@@ -102,9 +102,6 @@ void startup(){
   err = rt_sem_create(&mysync,"MySemaphore",1,S_FIFO);
   if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", err, strerror(-err)); 
     err = 0;
-  err = rt_sem_create(&start,"Startsync",0,S_FIFO);
-  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", err, strerror(-err)); 
-    err = 0;
 
 
   // set timing to ns
