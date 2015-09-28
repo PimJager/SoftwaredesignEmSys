@@ -1,0 +1,7 @@
+Result 09a1
+
+The program counts keypresses. However all keypresses are counted twice.
+This is most likely due to the key-down and key-up both 
+triggering an interrupt. This would be easily acounted for if we
+only care about keypresses. 
+Also the first key-up from starting the proces is counted. 
