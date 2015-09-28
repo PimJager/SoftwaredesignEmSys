@@ -1,0 +1,13 @@
+Res 08b
+
+My solution provides the desired output.
+First the low priority task starts running and locks the mutex.
+The Medium and High priotity tasks start when the low priority task is 
+in its critical section. We can see this when before the low
+priority task unlocks the mutex the high priority task requests it.
+Due to the prioity inversion avoidance in Mutex the low priority
+task temporarily gets the priority HIGH. When it finishes its critical section
+and unlocks the mutex it is given its old prioritu of LOW again and
+is preempted and the high priority locks the mutex and executes. Then the
+Mdium priority task is executed and finally the low priority task can
+finish execution. 
