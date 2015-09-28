@@ -59,7 +59,7 @@ void listenLPT1(){
 }
 
 void tearDownLPT1(){
-  b = inb(0x37A);
+  unsigned char b = inb(0x37A);
   b = b & 0xEF;
   outb(b, 0x37A);
 }
