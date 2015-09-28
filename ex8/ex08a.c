@@ -31,7 +31,7 @@ void prioLow(void *arg)
 {
     RTIME runtime;
 
-    rt_sem_v(&start);
+    //rt_sem_v(&start);
 
     runtime = 0;
     while(runtime < EXECTIMELOW) {
@@ -52,7 +52,7 @@ void prioLow(void *arg)
 void prioMid(void *arg){
     RTIME runtime;
 
-    rt_sem_v(&start);
+    //rt_sem_v(&start);
     rt_task_sleep(WAIT);
   
     runtime = 0;
@@ -68,7 +68,7 @@ void prioMid(void *arg){
 }
 
 void prioHigh(void *arg){
-    rt_sem_v(&start);
+    //rt_sem_v(&start);
     rt_task_sleep(WAIT);
 
     int i = 0;
