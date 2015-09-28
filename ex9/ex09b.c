@@ -59,9 +59,7 @@ void listenLPT1(){
 }
 
 void tearDownLPT1(){
-  unsigned char b = inb(0x37A);
-  b = b & 0xEF;
-  outb(b, 0x37A);
+  outb(inb(0x37A)&0xEF, 0x37A);
 }
 
 void init_xenomai() {
