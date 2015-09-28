@@ -25,7 +25,7 @@ RT_SEM start, mysync;
 #define EXECTIMEMID   1e8   // execution time of mid prio task in ns
 #define SPINTIME      1e7   // spin time in ns
 
-#define WAIT          15e6  // time the mid & high priority task sleeps before executing
+#define WAIT          3000  // time the mid & high priority task sleeps before executing
 
 void prioLow(void *arg)
 {
@@ -115,11 +115,11 @@ void startup(){
   // set timing to ns
   rt_timer_set_mode(BASEPERIOD);
 
-  err = rt_task_create(&lowP, "low", 0, LOW, 0);
-  if(err < 0) rt_printf("Failed to create task low; error: %d: %s", err, strerror(-err)); 
+  err = rt_task_create(&highP, "high", 0, HIGH, 0);
+  if(err < 0) rt_printf("Failed to create task high; error: %d: %s", err, strerror(-err)); 
     err = 0;
-  err = rt_task_start(&lowP, &prioLow, 0);
-  if(err < 0) rt_printf("Failed to start task low; error: %d: %s", err, strerror(-err)); 
+  err = rt_task_start(&highP, &prioHigh, 0);
+  if(err < 0) rt_printf("Failed to start task high; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_task_create(&midP, "mid", 0, MID, 0);
   if(err < 0) rt_printf("Failed to create task medium; error: %d: %s", err, strerror(-err)); 
@@ -127,11 +127,11 @@ void startup(){
   err = rt_task_start(&midP, &prioMid, 0);
   if(err < 0) rt_printf("Failed to start task medium; error: %d: %s", err, strerror(-err)); 
     err = 0;
-  err = rt_task_create(&highP, "high", 0, HIGH, 0);
-  if(err < 0) rt_printf("Failed to create task high; error: %d: %s", err, strerror(-err)); 
+  err = rt_task_create(&lowP, "low", 0, LOW, 0);
+  if(err < 0) rt_printf("Failed to create task low; error: %d: %s", err, strerror(-err)); 
     err = 0;
-  err = rt_task_start(&highP, &prioHigh, 0);
-  if(err < 0) rt_printf("Failed to start task high; error: %d: %s", err, strerror(-err)); 
+  err = rt_task_start(&lowP, &prioLow, 0);
+  if(err < 0) rt_printf("Failed to start task low; error: %d: %s", err, strerror(-err)); 
     err = 0;
 
   rt_printf("wake up all tasks\n\n");
