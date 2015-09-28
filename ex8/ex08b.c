@@ -7,7 +7,7 @@
 
 #include <native/task.h>
 #include <native/timer.h>
-#include <native/sem.h>
+#include <native/mutex.h>
 
 #include  <rtdk.h>
 #include <sys/io.h>
