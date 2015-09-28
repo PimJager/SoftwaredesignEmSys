@@ -38,7 +38,7 @@ void prioLow(void *arg)
     while(runtime < EXECTIMELOW) {
       
       err = rt_sem_p(&mysync,TM_INFINITE);
-      if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", res, strerror(-res)); 
+      if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
       rt_printf("Low priority task locks semaphore");
 
@@ -48,7 +48,7 @@ void prioLow(void *arg)
 
       rt_printf("Low priority task unlocks semaphore");
       err = rt_sem_v(&mysync);
-      if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", res, strerror(-res)); 
+      if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
     }
     rt_printf("..........................................Low priority task ends");
@@ -82,7 +82,7 @@ void prioHigh(void *arg){
       
       rt_printf("High priority task tries to lock semaphore");
       err = rt_sem_p(&mysync,TM_INFINITE);
-      if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", res, strerror(-res)); 
+      if(err < 0) rt_printf("Failed pending semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
       rt_printf("High priority task locks semaphore");
 
@@ -92,7 +92,7 @@ void prioHigh(void *arg){
 
       rt_printf("High priority task unlocks semaphore");
       err = rt_sem_v(&mysync);
-      if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", res, strerror(-res)); 
+      if(err < 0) rt_printf("Failed signaling semaphore; error: %d: %s", err, strerror(-err)); 
         err = 0;
     }
     rt_printf("..........................................High priority task ends");
@@ -103,10 +103,10 @@ void startup(){
   int err = 0;
   // semaphore to sync task startup on
   err = rt_sem_create(&mysync,"MySemaphore",1,S_FIFO);
-  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_sem_create(&start,"Startsync",0,S_FIFO);
-  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to create semaphore; error: %d: %s", err, strerror(-err)); 
     err = 0;
 
 
@@ -114,22 +114,22 @@ void startup(){
   rt_timer_set_mode(BASEPERIOD);
 
   err = rt_task_create(&lowP, "low", 0, LOW, 0);
-  if(err < 0) rt_printf("Failed to create task low; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to create task low; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_task_start(&lowP, &prioLow, 0);
-  if(err < 0) rt_printf("Failed to start task low; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to start task low; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_task_create(&midP, "mid", 0, MID, 0);
-  if(err < 0) rt_printf("Failed to create task medium; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to create task medium; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_task_start(&midP, &prioMid, 0);
-  if(err < 0) rt_printf("Failed to start task medium; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to start task medium; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_task_create(&highP, "high", 0, HIGH, 0);
-  if(err < 0) rt_printf("Failed to create task high; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to create task high; error: %d: %s", err, strerror(-err)); 
     err = 0;
   err = rt_task_start(&highP, &prioHigh, 0);
-  if(err < 0) rt_printf("Failed to start task high; error: %d: %s", res, strerror(-res)); 
+  if(err < 0) rt_printf("Failed to start task high; error: %d: %s", err, strerror(-err)); 
     err = 0;
 
   rt_printf("wake up all tasks\n");
