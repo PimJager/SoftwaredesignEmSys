@@ -46,7 +46,7 @@ void prioLow(void *arg)
       rt_printf("Low priority task unlocks semaphore");
       rt_sem_v(&mysync);
     }
-    rt_printf("End Task  : %d\n",num);
+    rt_printf("..........................................Low priority task ends");
 }
 
 void prioMid(void *arg){
@@ -57,7 +57,7 @@ void prioMid(void *arg){
   
     runtime = 0;
     while(runtime < EXECTIMEMID) {
-      rt_timer_spin(SPINTIMEMID);  // spin cpu doing nothing
+      rt_timer_spin(SPINTIME);  // spin cpu doing nothing
 
       runtime = runtime + SPINTIME;
 
