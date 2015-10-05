@@ -14,6 +14,7 @@ RT_INTR keypress;
 RT_TASK key_isr;
 
 #define LPT1_IRQ 7
+#define NUMRUNS     10000
 
 RTIME diffs[NUMRUNS];
 
