@@ -5,46 +5,46 @@
 
 #include <native/task.h>
 #include <native/timer.h>
-#include <native/sem.h>
+#include <native/intr.h>
 
 #include  <rtdk.h>
 #include <sys/io.h>
 
 #define NUMRUNS     10000
 #define BASEPERIOD  0   // baseperiod 0 to get ns
-#define PERIOD      1e6   // execution time of low prio task in ns
-#define FILEO        "time_diff_virtual.csv"
+#define PERIOD      1e6   // execution time of low prio task in us
+
+
+RT_INTR keypress;
+
 RT_TASK taskP;
 
 int run = 0;
-RTIME times[NUMRUNS]; 
-RTIME diffs[NUMRUNS];
 
 void task(void *arg)
 {
     int err = 0;
     if(run == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
+
+    outb(inb(0x378) | 0x01, 0x378); //set D0 HIGH
     
     while(run<NUMRUNS){
-      times[run] = rt_timer_read();
+      RTIME s = rt_timer_read();
+      //set D0 LOW and HIGH again
+      outb(inb(0x378) & 0xfe, 0x378);
+      outb(inb(0x378) | 0x01, 0x378);
+      //wait for respons:
+      rt_intr_wait(&intr, TM_INFINITE);
+      diff[run] = rt_timer_read() - s;
       run++;
       rt_task_wait_period(NULL);
     }
-    rt_printf("DONE, calculating diff\n");
-
-    calculate_diffs();
-
-    write_RTIMES(FILEO, NUMRUNS, diffs);
+    rt_printf("Done listening, saving to file\n");
+    write_RTIMES(FILEO, NUMRUNS, diff);
+    rt_printf("Done\n");
 }
 
-void calculate_diffs(){
-  int i = 0;
-  while(i<NUMRUNS){
-    diffs[i] = times[i+1] - times[i];
-    i++;
-  }
-}
 
 void write_RTIMES(char * filename, unsigned int number_of_values,
                   RTIME *time_values){
@@ -58,6 +58,16 @@ void write_RTIMES(char * filename, unsigned int number_of_values,
          fclose(file);
  }
 
+ void setupLPT1(){
+  //we need to enable interrupts on LPT1
+  ioperm(0x37A, 1, 1);
+  outb(inb(0x37A)|0x10, 0x37A);
+}
+
+void tearDownLPT1(){
+  outb(inb(0x37A)&0xEF, 0x37A);
+}
+
 //startup code
 void startup(){
   int err = 0;
@@ -65,6 +75,9 @@ void startup(){
   // set timing to ns
   rt_timer_set_mode(BASEPERIOD);
 
+  err = rt_intr_create(&keypress, NULL, LPT1_IRQ, I_PROPAGATE);
+  if(err < 0) rt_printf("Failed creating interrupt: %d: %s", err, strerror(-err)); 
+    err = 0;
   err = rt_task_create(&taskP, "high", 0, 50, 0);
   if(err < 0) rt_printf("Failed to create task ; error: %d: %s", err, strerror(-err)); 
     err = 0;
@@ -88,9 +101,13 @@ int main(int argc, char* argv[])
   // code to set things to run xenomai
   init_xenomai();
 
+  setupLPT1();
+
   //startup code
   startup();
 
   // wait for CTRL-c is typed to end the program
   pause();
+
+  tearDownLPT1();
 }
