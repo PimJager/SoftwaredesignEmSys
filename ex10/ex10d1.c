@@ -13,13 +13,16 @@
 #define NUMRUNS     10000
 #define BASEPERIOD  0   // baseperiod 0 to get ns
 #define PERIOD      1e6   // execution time of low prio task in us
+#define FILEO        "time_diff_linux_d.csv"
 
+#define LPT1_IRQ 7
 
 RT_INTR keypress;
 
 RT_TASK taskP;
 
 int run = 0;
+RTIME diffs[NUMRUNS];
 
 void task(void *arg)
 {
@@ -35,7 +38,7 @@ void task(void *arg)
       outb(inb(0x378) & 0xfe, 0x378);
       outb(inb(0x378) | 0x01, 0x378);
       //wait for respons:
-      rt_intr_wait(&intr, TM_INFINITE);
+      rt_intr_wait(&keypress, TM_INFINITE);
       diff[run] = rt_timer_read() - s;
       run++;
       rt_task_wait_period(NULL);
