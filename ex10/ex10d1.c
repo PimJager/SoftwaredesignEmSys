@@ -39,7 +39,7 @@ void task(void *arg)
       outb(inb(0x378) | 0x01, 0x378);
       //wait for respons:
       rt_intr_wait(&keypress, TM_INFINITE);
-      diff[run] = rt_timer_read() - s;
+      diffs[run] = rt_timer_read() - s;
       run++;
       rt_task_wait_period(NULL);
     }
