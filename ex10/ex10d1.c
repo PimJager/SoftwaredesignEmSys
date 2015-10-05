@@ -44,7 +44,7 @@ void task(void *arg)
       rt_task_wait_period(NULL);
     }
     rt_printf("Done listening, saving to file\n");
-    write_RTIMES(FILEO, NUMRUNS, diff);
+    write_RTIMES(FILEO, NUMRUNS, diffs);
     rt_printf("Done\n");
 }
 
