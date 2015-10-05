@@ -10,16 +10,16 @@
 #include  <rtdk.h>
 #include <sys/io.h>
 
+#define NUMRUNS     1e5
+#define BASEPERIOD  0   // baseperiod 0 to get ns
+#define PERIOD      1e6   // execution time of low prio task in ns
+
 RT_TASK taskP;
 
 int runs = 0;
 RTIME diffs[NUMRUNS]; 
 
-#define BASEPERIOD  0   // baseperiod 0 to get ns
 
-#define PERIOD      1e6   // execution time of low prio task in ns
-
-#define NUMRUNS     1e5
 
 void task(void *arg)
 {
