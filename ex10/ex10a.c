@@ -16,20 +16,26 @@
 
 RT_TASK taskP;
 
-int runs = 0;
+int run = 0;
 RTIME diffs[NUMRUNS]; 
 
 
 
 void task(void *arg)
 {
-    diffs[runs] = rt_timer_read();
-    rt_printf("Run %d, runtime %d\n", runs, diffs[runs]);
-    int err = 0;
-    unsigned long long period = 1000000000LLU;
-    if(runs == 0) err = rt_task_set_periodic(NULL, TM_NOW, period);
+
+    if(runs == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
-    runs++;
+    diffs[runs] = rt_timer_read();
+    
+    int err = 0;
+    while(run<NUMRUNS){
+      diffs[runs] = rt_timer_read();
+      rt_printf("Run %d, runtime %d\n", run, diffs[runs]);
+      run++;
+      rt_task_wait_period(NULL);
+    }
+    rt_printf("DONE\n");
 }
 
 //startup code
