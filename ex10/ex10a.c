@@ -26,7 +26,8 @@ void task(void *arg)
     diffs[runs] = rt_timer_read();
     rt_printf("Run %d, runtime %d\n", runs, diffs[runs]);
     int err = 0;
-    if(runs == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
+    unsigned long long period = 1000000000LLU;
+    if(runs == 0) err = rt_task_set_periodic(NULL, TM_NOW, period);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
     runs++;
 }
