@@ -30,9 +30,12 @@ void task(void *arg)
     if(run == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
 
+    rt_printf("Task started. This is computer 1");
+
     outb(inb(0x378) | 0x01, 0x378); //set D0 HIGH
     
     while(run<NUMRUNS){
+      rt_printf("Send %d", run);
       RTIME s = rt_timer_read();
       //set D0 LOW and HIGH again
       outb(inb(0x378) & 0xfe, 0x378);
@@ -64,6 +67,7 @@ void write_RTIMES(char * filename, unsigned int number_of_values,
  void setupLPT1(){
   //we need to enable interrupts on LPT1
   ioperm(0x37A, 1, 1);
+  ioperm(0x378, 1, 1);
   outb(inb(0x37A)|0x10, 0x37A);
 }
 

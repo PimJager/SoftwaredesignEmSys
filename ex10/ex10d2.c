@@ -21,13 +21,14 @@ RTIME diffs[NUMRUNS];
 void task(void *arg){
   int n = 0;
 
-  rt_printf("Listening:\n");
+  rt_printf("Listening, this is computer 2:\n");
 
   outb(inb(0x378) | 0x01, 0x378); 
 
   while(1){
     int x = rt_intr_wait(&keypress, TM_INFINITE);
     if(x>0){
+      rt_printf("Received interrupt, responding");
       //Respond: set D0 LOW and HIGH again 
       outb(inb(0x378) & 0xfe, 0x378);
       outb(inb(0x378) | 0x01, 0x378);
@@ -59,6 +60,7 @@ void startup(){
 void listenLPT1(){
   //we need to enable interrupts on LPT1
   ioperm(0x37A, 1, 1);
+  ioperm(0x378, 1, 1);
   outb(inb(0x37A)|0x10, 0x37A);
 }
 
