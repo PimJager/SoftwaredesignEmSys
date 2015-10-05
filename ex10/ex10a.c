@@ -13,14 +13,12 @@
 #define NUMRUNS     10000
 #define BASEPERIOD  0   // baseperiod 0 to get ns
 #define PERIOD      1e6   // execution time of low prio task in ns
-
+#define FILE        "time_diff_virtual.csv"
 RT_TASK taskP;
 
 int run = 0;
 RTIME times[NUMRUNS]; 
-int diffs[NUMRUNS];
-
-
+RTIME diffs[NUMRUNS];
 
 void task(void *arg)
 {
@@ -36,16 +34,31 @@ void task(void *arg)
     rt_printf("DONE, calculating diff\n");
 
     calculate_diffs();
+
+    write_RTIMES(FILE, NUMRUNS, diffs);
+
+    rt_printf("DONE: resulted printed to file: %s", FILE);
 }
 
 void calculate_diffs(){
   int i = 0;
   while(i<NUMRUNS){
     diffs[i] = times[i+1] - times[i];
-    printf("Diff %d : %d", i, diffs[i]);
     i++;
   }
 }
+
+void write_RTIMES(char * filename, unsigned int number_of_values,
+                  RTIME *time_values){
+         unsigned int n=0;
+         FILE *file;
+         file = fopen(filename,"w");
+         while (n<number_of_values) {
+              fprintf(file,"%u;%llu\n",n,time_values[n]);  
+              n++;
+         }
+         fclose(file);
+ }
 
 //startup code
 void startup(){
