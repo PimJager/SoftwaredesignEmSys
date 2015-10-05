@@ -27,10 +27,11 @@ RTIME diffs[NUMRUNS];
 void task(void *arg)
 {
     int err = 0;
-    if(run == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
-    if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
 
     rt_printf("Task started. This is computer 1");
+
+    if(run == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
+    if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
 
     outb(inb(0x378) | 0x01, 0x378); //set D0 HIGH
     
