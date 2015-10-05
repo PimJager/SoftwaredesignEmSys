@@ -10,7 +10,7 @@
 #include  <rtdk.h>
 #include <sys/io.h>
 
-#define NUMRUNS     1e5
+#define NUMRUNS     10000
 #define BASEPERIOD  0   // baseperiod 0 to get ns
 #define PERIOD      1e6   // execution time of low prio task in ns
 
@@ -24,10 +24,10 @@ RTIME diffs[NUMRUNS];
 void task(void *arg)
 {
     diffs[runs] = rt_timer_read();
+    rt_printf("Run %d, runtime %d\n", runs, diffs[runs]);
     int err = 0;
     if(runs == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
-    rt_printf("Run %d, runtime %d\n", runs, diffs[runs]);
     runs++;
 }
 
