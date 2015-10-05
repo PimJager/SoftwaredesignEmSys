@@ -28,7 +28,7 @@ void task(void *arg)
 {
     int err = 0;
 
-    rt_printf("Task started. This is computer 1");
+    rt_printf("Task started. This is computer 1\n");
 
     if(run == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
@@ -92,6 +92,8 @@ void startup(){
   err = rt_task_start(&taskP, &task, 0);
   if(err < 0) rt_printf("Failed to start task; error: %d: %s", err, strerror(-err)); 
     err = 0;
+
+  rt_printf("Tasks started\n");
 }
 
 void init_xenomai() {
