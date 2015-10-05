@@ -23,15 +23,14 @@ RTIME diffs[NUMRUNS];
 
 void task(void *arg)
 {
-
-    if(runs == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
+    int err = 0;
+    if(run == 0) err = rt_task_set_periodic(NULL, TM_NOW, PERIOD);
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
-    diffs[runs] = rt_timer_read();
     
     int err = 0;
     while(run<NUMRUNS){
-      diffs[runs] = rt_timer_read();
-      rt_printf("Run %d, runtime %d\n", run, diffs[runs]);
+      diffs[run] = rt_timer_read();
+      rt_printf("Run %d, runtime %d\n", run, diffs[run]);
       run++;
       rt_task_wait_period(NULL);
     }
