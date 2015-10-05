@@ -17,7 +17,8 @@
 RT_TASK taskP;
 
 int run = 0;
-RTIME diffs[NUMRUNS]; 
+RTIME times[NUMRUNS]; 
+int diffs[NUMRUNS];
 
 
 
@@ -28,12 +29,20 @@ void task(void *arg)
     if(err != 0)  rt_printf("scheduling task filed with err %d: %s\n", err), strerror(-err);
     
     while(run<NUMRUNS){
-      diffs[run] = rt_timer_read();
-      rt_printf("Run %d, runtime %d\n", run, diffs[run]);
+      times[run] = rt_timer_read();
       run++;
       rt_task_wait_period(NULL);
     }
-    rt_printf("DONE\n");
+    rt_printf("DONE, calculating diff\n");
+
+    calculate_diffs();
+}
+
+void calculate_diffs(){
+  for(int i=0; i<RUNTIMES-1; i++){
+    diffs[i] = times[i+1] - times[i];
+    printf("Diff %d : %d", i, diffs[i]);
+  }
 }
 
 //startup code
