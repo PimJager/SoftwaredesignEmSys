@@ -28,7 +28,6 @@ void task(void *arg){
   while(1){
     int x = rt_intr_wait(&keypress, TM_INFINITE);
     if(x>0){
-      rt_printf("Received interrupt, responding");
       //Respond: set D0 LOW and HIGH again 
       outb(inb(0x378) & 0xfe, 0x378);
       outb(inb(0x378) | 0x01, 0x378);

@@ -36,7 +36,6 @@ void task(void *arg)
     outb(inb(0x378) | 0x01, 0x378); //set D0 HIGH
     
     while(run<NUMRUNS){
-      rt_printf("Send %d", run);
       RTIME s = rt_timer_read();
       //set D0 LOW and HIGH again
       outb(inb(0x378) & 0xfe, 0x378);
@@ -92,8 +91,6 @@ void startup(){
   err = rt_task_start(&taskP, &task, 0);
   if(err < 0) rt_printf("Failed to start task; error: %d: %s", err, strerror(-err)); 
     err = 0;
-
-  rt_printf("Tasks started\n");
 }
 
 void init_xenomai() {
