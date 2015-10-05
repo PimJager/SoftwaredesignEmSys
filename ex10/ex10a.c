@@ -39,9 +39,11 @@ void task(void *arg)
 }
 
 void calculate_diffs(){
-  for(int i=0; i<RUNTIMES-1; i++){
+  int i = 0;
+  while(i<NUMRUNS){
     diffs[i] = times[i+1] - times[i];
     printf("Diff %d : %d", i, diffs[i]);
+    i++;
   }
 }
 
