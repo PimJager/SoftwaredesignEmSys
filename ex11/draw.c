@@ -34,8 +34,9 @@ RT_INTR clk_i;
 void draw(){
 	normalize(); //make sure we're going right
 	while(1){
+		normalize(); //normalize every period to deal with disturbances
 		//wait 15 symbols to center the X
-		rt_task_sleep(COLUMN*15);
+		rt_task_sleep(COLUMN*10);
 		drawSymbol(X);
 	}
 }
