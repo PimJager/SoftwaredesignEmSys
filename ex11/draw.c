@@ -29,9 +29,9 @@ RT_INTR clk_i;
 void draw(){
 	int c = 0;
 	while(1){
-	    int x = rt_intr_wait(&keypress, TM_INFINITE);
+	    int x = rt_intr_wait(&clk_i, TM_INFINITE);
 	    if(x>0){
-	    	RTTIME t = rt_timer_read();
+	    	RTIME t = rt_timer_read();
 	    	rt_printf("INTR %d RECEVIED on %d \n", c, t);
 	    	x--;
 	    	c++;
