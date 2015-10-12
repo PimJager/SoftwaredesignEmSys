@@ -24,7 +24,9 @@
 
 #define LEDS 0x378
 
-#define COLUMN 1914890 // 8 columns per letter
+#define COLUMN 514890 // 8 columns per letter
+
+int X[8] = {D0|D7, D1|D6, D2|D5, D3|D4, D3|D4, D2|D5, D1|D6, D0|D7};
 
 RT_TASK drawT;
 RT_INTR clk_i;
@@ -32,30 +34,16 @@ RT_INTR clk_i;
 void draw(){
 	while(1){
 		normalize(); //make sure we're going right
-    	outb(D0 | D1 | D2 | D7, LEDS);
-    	rt_intr_wait(&clk_i, TM_INFINITE);
-    	outb(OFF, LEDS);
-    	rt_intr_wait(&clk_i, TM_INFINITE);
+    	draw(X);
 	}
 }
 
-void drawX(){
-	outb(D0 | D7, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D1 | D6, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D2 | D5, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D3 | D4, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D3 | D4, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D2 | D5, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D1 | D6, LEDS);
-	rt_task_sleep(COLUMN);
-	outb(D0 | D7, LEDS);
-	rt_task_sleep(COLUMN);
+void draw(int* letter){
+	int i = 0;
+	while(i<8){
+		outb(letter[i], LEDS);
+		rt_task_sleep(COLUMN);
+	}
 	outb(OFF, LEDS);
 }
 
@@ -73,7 +61,7 @@ int direction(){
 }
 
 void normalize(){
-	if(direction() == 1) rt_intr_wait(&clk_i, TM_INFINITE);
+	if(direction() == 0) rt_intr_wait(&clk_i, TM_INFINITE);
 	return;
 }
 
