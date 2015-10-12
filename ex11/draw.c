@@ -34,6 +34,8 @@ RT_INTR clk_i;
 void draw(){
 	while(1){
 		normalize(); //make sure we're going right
+		//wait 62 symbols to center the X
+		rt_task_sleep(COLUMN*62);
     	drawSymbol(X);
 	}
 }
