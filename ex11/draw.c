@@ -63,3 +63,9 @@ void startup(){
 		if(err < 0) rt_printf("Failed to start task; error: %d: %s", err, strerror(-err)); 
 		err = 0;
 }
+
+int main(){
+	init_xenomai();
+	setupCLK();
+	startup();
+}
