@@ -26,18 +26,38 @@
 RT_TASK drawT;
 RT_INTR clk_i;
 
+#define RESULTFILE "mess.csv"
+RTIME m[1000];
+
 void draw(){
 	int c = 0;
-	while(1){
+	rt_printf("Start listening for intr\n");
+	while(c<1000){
 	    int x = rt_intr_wait(&clk_i, TM_INFINITE);
 	    if(x>0){
 	    	RTIME t = rt_timer_read();
-	    	rt_printf("INTR %d RECEVIED on %d \n", c, t);
+	    	rt_printf("INTR %d RECEVIED on %llu \n", c, t);
+	    	m[c] = s;
 	    	x--;
 	    	c++;
 	    }
 	}
+	write_RTIMES(RESULTFILE, 1000, m);
+	rt_printf("Done listening, results written to %s", RESULTFILE);
 }
+
+
+void write_RTIMES(char * filename, unsigned int number_of_values,
+                  RTIME *time_values){
+         unsigned int n=0;
+         FILE *file;
+         file = fopen(filename,"w");
+         while (n<number_of_values) {
+              fprintf(file,"%u;%llu\n",n,time_values[n]);  
+              n++;
+         }
+         fclose(file);
+ }
 
 void setupCLK(){
   	ioperm(0x37A, 1, 1);
