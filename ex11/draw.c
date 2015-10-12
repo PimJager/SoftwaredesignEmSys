@@ -51,7 +51,7 @@ void init_xenomai(){
 }
 
 void startup(){
-	rt_set_timer_mode(0);
+	rt_timer_set_mode(0);
 	int err = 0;
 	err = rt_intr_create(&clk_i, NULL, CLK_INTR, I_PROPAGATE);
 		if(err < 0) rt_printf("Failed creating interrupt: %d: %s", err, strerror(-err)); 
