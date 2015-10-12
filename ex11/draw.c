@@ -26,7 +26,8 @@
 
 #define COLUMN 514890 // 8 columns per letter
 
-int X[8] = {D0|D7, D1|D6, D2|D5, D3|D4, D3|D4, D2|D5, D1|D6, D0|D7};
+int X[8] 	= {D0|D7, D1|D6, D2|D5, D3|D4, D3|D4, D2|D5, D1|D6, D0|D7};
+int SQ[8]	= {255, D0|D7, D0|D7, D0|D7, D0|D7, D0|D7, D0|D7, 255};
 
 RT_TASK drawT;
 RT_INTR clk_i;
@@ -36,7 +37,7 @@ void draw(){
 	while(1){
 		normalize(); //normalize every period to deal with disturbances and wait for interrupts
 		rt_task_sleep(COLUMN*10); //wait 15 symbols to center the X
-		drawSymbol(X);
+		drawSymbol(SQ);
 		rt_task_sleep(COLUMN*96); //write the reverse X
 		drawSymbolRev(X); //not really necessary, as the X is symetric, but whatever
 	}
