@@ -68,4 +68,5 @@ int main(){
 	init_xenomai();
 	setupCLK();
 	startup();
+	pause();
 }
