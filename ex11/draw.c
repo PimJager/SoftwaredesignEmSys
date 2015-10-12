@@ -24,15 +24,14 @@
 
 #define LEDS 0x378
 
+#define COLUMN 1914890 // 8 columns per letter
+
 RT_TASK drawT;
 RT_INTR clk_i;
 
-#define RESULTFILE "mess.csv"
-RTIME m[1000];
-
 void draw(){
 	while(1){
-		normalize();
+		normalize(); //make sure we're going right
     	outb(D0 | D1 | D2 | D7, LEDS);
     	rt_intr_wait(&clk_i, TM_INFINITE);
     	outb(OFF, LEDS);
@@ -40,9 +39,30 @@ void draw(){
 	}
 }
 
-//establishes the direction of the pendulum
+void drawX(){
+	outb(D0 | D7, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D1 | D6, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D2 | D5, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D3 | D4, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D3 | D4, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D2 | D5, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D1 | D6, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(D0 | D7, LEDS);
+	rt_task_sleep(COLUMN);
+	outb(OFF, LEDS);
+}
+
+//establishes the direction of the pendulum when function ran!
+//so the direction at the end of the funtion is the other way!
 //0 for first interrupt is going left
-//1 for first interrupt is going right
+//1 for first interrupt is going right 
 int direction(){
 	RTIME fst = rt_timer_read();
 	rt_intr_wait(&clk_i, TM_INFINITE);
@@ -53,7 +73,7 @@ int direction(){
 }
 
 void normalize(){
-	if(direction() == 0) rt_intr_wait(&clk_i, TM_INFINITE);
+	if(direction() == 1) rt_intr_wait(&clk_i, TM_INFINITE);
 	return;
 }
 
