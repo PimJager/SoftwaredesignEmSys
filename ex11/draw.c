@@ -34,10 +34,11 @@ RT_INTR clk_i;
 void draw(){
 	normalize(); //make sure we're going right
 	while(1){
-		normalize(); //normalize every period to deal with disturbances
-		//wait 15 symbols to center the X
-		rt_task_sleep(COLUMN*10);
+		normalize(); //normalize every period to deal with disturbances and wait for interrupts
+		rt_task_sleep(COLUMN*10); //wait 15 symbols to center the X
 		drawSymbol(X);
+		rt_task_sleep(COLUMN*96); //write the reverse X
+		drawSymbolRev(X); //not really necessary, as the X is symetric, but whatever
 	}
 }
 
@@ -47,6 +48,16 @@ void drawSymbol(int* sym){
 		outb(sym[i], LEDS);
 		rt_task_sleep(COLUMN);
 		i++;
+	}
+	outb(OFF, LEDS);
+}
+
+void drawSymbolRev(int* sym){
+	int i=7;
+	while(i>0){
+		outb(sym[i], LEDS);
+		rt_task_sleep(COLUMN);
+		i--;
 	}
 	outb(OFF, LEDS);
 }
