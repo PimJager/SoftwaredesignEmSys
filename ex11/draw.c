@@ -34,14 +34,14 @@ RT_INTR clk_i;
 void draw(){
 	while(1){
 		normalize(); //make sure we're going right
-    	draw(X);
+    	drawSymbol(X);
 	}
 }
 
-void draw(int* letter){
+void drawSymbol(int* sym){
 	int i = 0;
 	while(i<8){
-		outb(letter[i], LEDS);
+		outb(sym[i], LEDS);
 		rt_task_sleep(COLUMN);
 	}
 	outb(OFF, LEDS);
