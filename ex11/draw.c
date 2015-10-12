@@ -37,7 +37,7 @@ void draw(){
 	    if(x>0){
 	    	RTIME t = rt_timer_read();
 	    	rt_printf("INTR %d RECEVIED on %llu \n", c, t);
-	    	m[c] = s;
+	    	m[c] = t;
 	    	x--;
 	    	c++;
 	    }
