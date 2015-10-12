@@ -35,13 +35,11 @@ RT_INTR clk_i;
 void draw(){
 	normalize(); //make sure we're going right
 	while(1){
-		rt_task_sleep(COLUMN*10); //wait 15 symbols to center the X
+		rt_task_sleep(COLUMN*10); //wait to center the X
 		drawSymbol(SQ);
-		//rt_task_sleep(COLUMN*96); //write the reverse X
-		//drawSymbolRev(X); //not really necessary, as the X is symetric
-		rt_intr_wait(&clk_i, TM_INFINITE);
-		rt_intr_wait(&clk_i, TM_INFINITE);
-		//normalize();
+		rt_task_sleep(COLUMN*30); //write on the way back
+		drawSymbolRev(X); //not really necessary, as the X is symetric
+		normalize();
 	}
 }
 
@@ -79,7 +77,7 @@ int direction(){
 }
 
 void normalize(){
-	if(direction() == 1) rt_intr_wait(&clk_i, TM_INFINITE);
+	if(direction() == 1) {rt_printf("Had to normalize\n"; rt_intr_wait(&clk_i, TM_INFINITE);}
 	return;
 }
 
