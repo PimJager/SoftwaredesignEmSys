@@ -34,8 +34,8 @@ RT_INTR clk_i;
 void draw(){
 	while(1){
 		normalize(); //make sure we're going right
-		//wait 62 symbols to center the X
-		rt_task_sleep(COLUMN*62);
+		//wait 29 symbols to center the X
+		rt_task_sleep(COLUMN*29);
     	drawSymbol(X);
 	}
 }
@@ -45,6 +45,7 @@ void drawSymbol(int* sym){
 	while(i<8){
 		outb(sym[i], LEDS);
 		rt_task_sleep(COLUMN);
+		i++;
 	}
 	outb(OFF, LEDS);
 }
