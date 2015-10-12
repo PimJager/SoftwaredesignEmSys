@@ -12,7 +12,7 @@
 
 #define NUMRUNS     10000
 #define BASEPERIOD  0   // baseperiod 0 to get ns
-#define PERIOD      1e6   // execution time of low prio task in us
+#define PERIOD      100000   // execution time of low prio task in us
 #define FILEO        "time_diff_linux_d.csv"
 
 #define LPT1_IRQ 7
