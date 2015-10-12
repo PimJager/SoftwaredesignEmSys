@@ -68,11 +68,18 @@ void drawSymbolRev(int* sym){
 //0 for first interrupt is going left
 //1 for first interrupt is going right 
 int direction(){
+	rt_intr_wait(&clk_i, TM_INFINITE);
 	RTIME fst = rt_timer_read();
 	rt_intr_wait(&clk_i, TM_INFINITE);
 	RTIME snd = rt_timer_read();
 	RTIME diff = snd - fst;
 	rt_printf("%d\t", diff);
+	if(diff < 1e5) {rt_printf(
+		"SMALL, diff to small running third: %d\n", diff);
+		rt_intr_wait(&clk_i, TM_INFINITE);
+		RTIME thrd = rt_timer_read();
+		diff = thrd - fst;
+	}
 	if(diff < 6e7) return 0;
 	else 		   return 1;
 }
