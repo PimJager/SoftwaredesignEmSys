@@ -32,11 +32,11 @@ RT_TASK drawT;
 RT_INTR clk_i;
 
 void draw(){
+	normalize(); //make sure we're going right
 	while(1){
-		normalize(); //make sure we're going right
 		//wait 15 symbols to center the X
 		rt_task_sleep(COLUMN*15);
-    	drawSymbol(X);
+		drawSymbol(X);
 	}
 }
 
@@ -59,12 +59,12 @@ int direction(){
 	rt_intr_wait(&clk_i, TM_INFINITE);
 	RTIME snd = rt_timer_read();
 	RTIME diff = snd - fst;
-	if(diff < 6.6e7) return 0;
-	else 			 return 1;
+	if(diff < 4e7) return 0;
+	else 		   return 1;
 }
 
 void normalize(){
-	if(direction() == 0) rt_intr_wait(&clk_i, TM_INFINITE);
+	if(direction() == 1) rt_intr_wait(&clk_i, TM_INFINITE);
 	return;
 }
 
