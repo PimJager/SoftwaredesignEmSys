@@ -37,7 +37,7 @@ void draw(){
 	while(1){
 		rt_task_sleep(COLUMN*10); //wait to center the X
 		drawSymbol(SQ);
-		rt_task_sleep(COLUMN*30); //write on the way back
+		rt_task_sleep(COLUMN*50); //write on the way back
 		drawSymbolRev(X); //not really necessary, as the X is symetric
 		normalize();
 	}
@@ -72,12 +72,14 @@ int direction(){
 	rt_intr_wait(&clk_i, TM_INFINITE);
 	RTIME snd = rt_timer_read();
 	RTIME diff = snd - fst;
-	if(diff < 4e7) return 0;
+	rt_printf("%d\t", diff);
+	if(diff < 6e7) return 0;
 	else 		   return 1;
 }
 
 void normalize(){
-	if(direction() == 1) {rt_printf("Had to normalize\n"; rt_intr_wait(&clk_i, TM_INFINITE);}
+	if(direction() == 1) {rt_printf("YES\n"); rt_intr_wait(&clk_i, TM_INFINITE);}
+	else rt_printf("NO\n");
 	return;
 }
 
